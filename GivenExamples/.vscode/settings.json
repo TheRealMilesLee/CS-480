@@ -1,4 +1,7 @@
 {
   "docwriter.progress.trackClasses": true,
-  "docwriter.progress.trackTypes": true
+  "docwriter.progress.trackTypes": true,
+  "python.linting.flake8Enabled": false,
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true
 }

@@ -1,45 +1,37 @@
-from PriorityQueue import *
-from PythonSearches import *
+from pq import *
+from search import *
 
 
 class InformedNode(Node):
-    # It's a Node that has a heuristic value
+    """
+    Added the goal state as a parameter to the constructor.  Also
+    added a new method to be used in conjunction with a priority
+    queue.
+    """
+
     def __init__(self, goal, state, parent, operator, depth):
-        """
-      It creates a new node with the given state, parent, operator, and depth, and sets the goal to
-      the given goal
-
-      :param goal: the goal state
-      :param state: the current state of the problem
-      :param parent: the node that generated this node
-      :param operator: the operator that was applied to the parent node to get this node
-      :param depth: the depth of the node in the search tree
-      """
-
         Node.__init__(self, state, parent, operator, depth)
         self.goal = goal
 
     def priority(self):
         """
-      It returns the sum of the depth of the current node and the heuristic value of the current
-      state
-      :return: The priority of the node.
-    """
+        Needed to determine where the node should be placed in the
+        priority queue.  Depends on the current depth of the node as
+        well as the estimate of the distance from the current state to
+        the goal state.
+        """
         return self.depth + self.state.heuristic(self.goal)
 
 
 class InformedSearch(Search):
-    # It's a subclass of Search that implements the A* algorithm
-    def __init__(self, initialState, goalState):
-        """
-      The function takes in the initial state and the goal state and then creates a priority queue and
-      adds the goal state to the queue. Then it calls the execute function and if the solution is
-      None, it prints "Search failed" and if the solution is not None, it calls the showPath function
-      and prints the number of expansions.
-
-      :param initialState: The initial state of the puzzle
-      :param goalState: The goal state of the puzzle
     """
+    A general informed search class that uses a priority queue and
+    traverses a search tree containing instances of the InformedNode
+    class.  The problem domain should be based on the
+    InformedProblemState class.
+    """
+
+    def __init__(self, initialState, goalState):
         self.expansions = 0
         self.clearVisitedStates()
         self.q = PriorityQueue()
@@ -53,12 +45,6 @@ class InformedSearch(Search):
             print("Expanded", self.expansions, "nodes during search")
 
     def execute(self):
-        """
-        While the queue is not empty, dequeue the current node, increment the number of
-        expansions, check if the current node is the goal state, if not, apply the operators to the
-        current node, and enqueue the new nodes
-        :return: The goal node.
-        """
         while not self.q.empty():
             current = self.q.dequeue()
             self.expansions += 1
@@ -81,7 +67,6 @@ class InformedSearch(Search):
         return None
 
 
-# It's a ProblemState that has a heuristic function
 class InformedProblemState(ProblemState):
     """
     An interface class for problem domains used with informed search.
@@ -89,9 +74,7 @@ class InformedProblemState(ProblemState):
 
     def heuristic(self, goal):
         """
-        > The heuristic function should return an estimate of the cost of the cheapest path from the current
-        state to the goal state
-
-        :param goal: The goal node
+        For use with informed search.  Returns the estimated
+        cost of reaching the goal from this state.
         """
         abstract()
