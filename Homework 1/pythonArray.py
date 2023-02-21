@@ -17,66 +17,148 @@ goal_state = [[1, 2, 3], [8, 0, 4], [7, 6, 5]]
 
 
 class EightPuzzle(InformedProblemState):
-    def __init__(self, start_state, goal_state, move_step):
+    def __init__(self, start_state, goal_state):
+        """
+        > The `__init__` function is called when you create a new instance of the class. It is used to
+        initialize the class
+        :param start_state: The starting state of the agent
+        :param goal_state: The goal state of the agent
+        """
         self.state = start_state
         self.goal = goal_state
-        self.move = move_step
+
+    def __str__(self):
+        """
+        It returns a string representation of the state
+        :return: The state of the board.
+        """
+        result = ""
+        for row in range(0, len(self.state)):
+            for col in range(0, len(self.state[row])):
+                if self.state[row][col] == 0:
+                    result += " "
+                else:
+                    result += str(self.state[row][col])
+                result += " "
+            result += "\n"
+        return result
 
     def illegal(self):
+        """
+        It checks if the current state is the goal state.
+        :return: the number of illegal tiles in the current state.
+        """
         blankPosition = self.findBlank()
         row = blankPosition[0]
         col = blankPosition[1]
-        if (self.move > 1 or col < 0 or row < 0):
+        if (row < 0 and row > 2):
             return 1
-        return 0
+        elif (col < 0 and col > 2):
+            return 1
+        else:
+            return 0
 
     def equals(self, state):
-        return self.state == state.goal
+        # Checking if the current state is the goal state.
+        for row in range(0, len(self.state)):
+            for col in range(0, len(self.state)):
+                if (self.state[row][col] != self.goal[row][col]):
+                    return False
+        return True
 
     def findBlank(self):
+        """
+        It returns the row and column of the blank tile
+        :return: The row and column of the blank space.
+        """
         for row in range(0, len(self.state)):
             for col in range(0, len(self.state)):
                 if (self.state[row][col] == 0):
                     return (row, col)
 
     def moveLeft(self):
+        """
+        The above function moves the blank tile to the left.
+        """
         blankPosition = self.findBlank()
         row = blankPosition[0]
         col = blankPosition[1]
         temp = self.state[row][col]
-        self.state[row][col] = self.state[row][col - 1]
-        self.state[row][col - 1] = temp
+        if col - 1 > -1:
+            self.state[row][col] = self.state[row][col - 1]
+            self.state[row][col - 1] = temp
+            return EightPuzzle(self.state, self.goal)
+        else:
+            return EightPuzzle(self.state, self.goal)
 
     def moveRight(self):
+        """
+        > The function `moveRight` takes a `Puzzle` object as input and returns a new `Puzzle` object with
+        the blank moved one space to the right
+        """
         blankPosition = self.findBlank()
         row = blankPosition[0]
         col = blankPosition[1]
         temp = self.state[row][col]
-        self.state[row][col] = self.state[row][col + 1]
-        self.state[row][col + 1] = temp
+        if col + 1 < self.state[row]:
+            self.state[row][col] = self.state[row][col + 1]
+            self.state[row][col + 1] = temp
+            return EightPuzzle(self.state, self.goal)
+        else:
+            return EightPuzzle(self.state, self.goal)
 
     def moveUp(self):
+        """
+        It moves the blank up one row.
+        """
         blankPosition = self.findBlank()
         row = blankPosition[0]
         col = blankPosition[1]
         temp = self.state[row][col]
-        self.state[row][col] = self.state[row - 1][col]
-        self.state[row - 1][col] = temp
+        if row - 1 > -1:
+            self.state[row][col] = self.state[row - 1][col]
+            self.state[row - 1][col] = temp
+            return EightPuzzle(self.state, self.goal)
+        else:
+            return EightPuzzle(self.state, self.goal)
 
     def moveDown(self):
+        """
+        It moves the blank space down one row.
+        """
         blankPosition = self.findBlank()
         row = blankPosition[0]
         col = blankPosition[1]
         temp = self.state[row][col]
-        self.state[row][col] = self.state[row + 1][col]
-        self.state[row + 1][col] = temp
+
+        if row + 1 < len(self.state):
+            self.state[row][col] = self.state[row + 1][col]
+            self.state[row + 1][col] = temp
+            return EightPuzzle(self.state, self.goal)
+        else:
+            return EightPuzzle(self.state, self.goal)
 
     def operatorNames(self):
+        """
+        It returns a list of the names of the operators that the agent can use
+        :return: The names of the operators.
+        """
         return ["moveDown", "moveUp", "moverLeft", "moveRight"]
 
     def applyOperators(self):
+        """
+        It returns a list of all the possible states that can be reached from the current state
+        :return: The return value is a list of the possible moves that can be made.
+        """
         return [self.moveDown(), self.moveUp(), self.moveLeft(), self.moveRight()]
 
 
-Search(EightPuzzle(initial_states[0], goal_state, 1), EightPuzzle(
-    goal_state, goal_state, 1))
+def Solver():
+    solverObject = EightPuzzle(initial_states[0], goal_state)
+    solverPtr = solverObject.state[0][0]
+    for row in range(0, len(solverObject.state)):
+        for col in range(0, len(solverObject.state)):
+            if (solverObject.state[row][col + 1] == solverObject.goal[row][col]):
+                solverObject.moveLeft()
+            elif (solverObject.state[row][col - 1] == solverObject.goal[row][col]):
+                solverObject.moveRight()
