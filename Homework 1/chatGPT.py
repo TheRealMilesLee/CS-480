@@ -16,6 +16,8 @@ def heuristic(state):
     return distance
 
 # Define the A* search algorithm
+
+
 def a_star(initial_state):
     # Define the initial state
     start_node = (heuristic(initial_state), initial_state, 0, None)
@@ -76,7 +78,7 @@ def informed_search(initial_state, heuristic_func):
     while frontier:
         # Get the node with the smallest h value
         h, state, parent = heapq.heappop(frontier)
-
+        print("The frontier is :", frontier)
         # Check if the goal state has been reached
         if state == goal_state:
             path = []
@@ -108,11 +110,11 @@ def informed_search(initial_state, heuristic_func):
 # Define the initial state
 initial_state = [[1, 3, 0], [8, 2, 4], [7, 6, 5]]
 
-# Solve the puzzle using A * search
-print("Solution using A* search:")
-path = a_star(initial_state)
-if path:
-    for state in path:
-        print(state)
-else:
-    print("No solution found.")
+# Solve the puzzle using the Manhattan distance heuristic
+print("Solution using Manhattan distance heuristic:")
+path = informed_search(initial_state, heuristic)
+# if path:
+#     for state in path:
+#         print(state)
+# else:
+#     print("No solution found.")

@@ -48,12 +48,8 @@ class EightPuzzle(InformedProblemState):
         It checks if the current state is the goal state.
         :return: the number of illegal tiles in the current state.
         """
-        blankPosition = self.findBlank()
-        row = blankPosition[0]
-        col = blankPosition[1]
-        if (row < 0 and row > 2):
-            return 1
-        elif (col < 0 and col > 2):
+        BlankSpace = self.findBlank()
+        if (BlankSpace == 1):
             return 1
         else:
             return 0
@@ -75,6 +71,7 @@ class EightPuzzle(InformedProblemState):
             for col in range(0, len(self.state)):
                 if (self.state[row][col] == 0):
                     return (row, col)
+        return 1
 
     def moveLeft(self):
         """
