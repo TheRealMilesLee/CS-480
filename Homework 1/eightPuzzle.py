@@ -20,3 +20,7 @@ class EightPuzzle():
 
 TestObj = EightPuzzle()
 TestObj.state(A)
+
+
+
+
