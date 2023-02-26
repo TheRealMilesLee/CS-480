@@ -153,14 +153,6 @@ class EightPuzzle(InformedProblemState):
         return [self.moveDown(), self.moveUp(), self.moveLeft(), self.moveRight()]
 
 
-<<<<<<< HEAD
-TestObj = EightPuzzle()
-TestObj.state(A)
-
-
-
-
-=======
 # A way to tell if the file is being run as a script or being imported as a module.
 if __name__ == '__main__':
     initial_states = [
@@ -197,4 +189,3 @@ if __name__ == '__main__':
 # F                           12                  12                    102
 # G                           15                 15                    337
 # H                           20                 20                   3508
->>>>>>> 74da11c88ea5dafcdeccabd4cc3efbe5f1442dcd
