@@ -167,15 +167,15 @@ if __name__ == '__main__':
     ]
     goal_state = [[1, 2, 3], [8, 0, 4], [7, 6, 5]]
 
-    for InformSearchIndex in range(0, len(initial_states)):
-        print("Inform search Test case: ", chr(65 + InformSearchIndex))
-        InformedSearch(EightPuzzle(
-            initial_states[InformSearchIndex]), EightPuzzle(goal_state))
-        print("##########################")
+    # for InformSearchIndex in range(0, len(initial_states)):
+    #     print("Inform search Test case: ", chr(65 + InformSearchIndex))
+    #     InformedSearch(EightPuzzle(
+    #         initial_states[InformSearchIndex]), EightPuzzle(goal_state))
+    #     print("##########################")
 
     for BFSIndex in range(0, len(initial_states)):
         print("BFS Test case: ", chr(65 + BFSIndex))
-        Search(EightPuzzle(
+        InformedSearch(EightPuzzle(
             initial_states[BFSIndex]), EightPuzzle(goal_state))
         print("##########################")
 
