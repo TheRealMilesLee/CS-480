@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore dataset folder
+/Users/Silverhand/Developer/TrumanCodeSpaces/CS-480/FinalProject/Dataset/
