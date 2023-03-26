@@ -1,5 +1,9 @@
-from sklearn.model_selection import train_test_split
 import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics import (accuracy_score, classification_report,
+                             confusion_matrix)
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
 
 FilePath = 'spam.csv'
 processedFilePath = 'Processed.csv'
@@ -15,10 +19,24 @@ with open(FilePath, 'rb') as csv_in:
 data = pd.read_csv(processedFilePath, encoding='utf-8')
 
 # Extract the message and label columns
-messages = data['v2'].values
 labels = data['v1'].values
+messages = data['v2'].values
 
-# Split the data into training and validation sets
-train_messages, train_labels = train_test_split(messages, labels)
+train_messages, validate_message, train_label, validate_label = train_test_split(
+    messages, labels)
 
-print(train_labels)
+# Create a count vectorizer to convert text to a matrix of token counts
+vectorizer = CountVectorizer()
+X_train_counts = vectorizer.fit_transform(train_messages)
+X_test_counts = vectorizer.transform(validate_message)
+# Train a Naive Bayes classifier
+clf = MultinomialNB()
+clf.fit(X_train_counts, train_label)
+
+# Make predictions on the test set
+y_pred = clf.predict(X_test_counts)
+
+# Evaluate the classifier's performance
+print("Accuracy:", accuracy_score(validate_label, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(validate_label, y_pred))
+print("Classification Report:\n", classification_report(validate_label, y_pred))
