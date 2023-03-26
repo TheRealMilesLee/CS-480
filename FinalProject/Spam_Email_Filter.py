@@ -22,13 +22,13 @@ data = pd.read_csv(processedFilePath, encoding='utf-8')
 labels = data['v1'].values
 messages = data['v2'].values
 
-train_messages, validate_message, train_label, validate_label = train_test_split(
+train_Msg, validate_Msg, train_label, validate_label = train_test_split(
     messages, labels)
 
 # Create a count vectorizer to convert text to a matrix of token counts
 vectorizer = CountVectorizer()
-X_train_counts = vectorizer.fit_transform(train_messages)
-X_test_counts = vectorizer.transform(validate_message)
+X_train_counts = vectorizer.fit_transform(train_Msg)
+X_test_counts = vectorizer.transform(validate_Msg)
 # Train a Naive Bayes classifier
 clf = MultinomialNB()
 clf.fit(X_train_counts, train_label)
