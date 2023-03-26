@@ -1,13 +1,19 @@
-import tensorflow as tf
+# import tensorflow as tf
 # from tensorflow import keras
 # from tensorflow.keras import layers
-import pathlib
-dataset_url = "https://plg.uwaterloo.ca/cgi-bin/cgiwrap/gvcormac/trec05p-1.tgz"
-data_dir = tf.keras.utils.get_file(origin=dataset_url,
-                                   fname='SpamEmails',
-                                   untar=True)
-data_dir = pathlib.Path(data_dir)
+import os
+import glob
+data_path = 'trec05p-1'
+emails = []
 
+for root, dirs, files in os.walk(data_path):
+    for file in glob.glob(os.path.join(root, '*.txt')):
+        with open(file, 'r', encoding='ISO-8859-1') as f:
+            text = f.read()
+            emails.append(text)
+
+print(emails)
+print('Number of emails:', len(emails))
 
 # tokenizer = keras.preprocessing.text.Tokenizer(num_words=10000)
 # tokenizer.fit_on_texts(train_data['text'])
